@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5" style="background-color: #6c757d; padding: 20px; height: 500px; overflow: hidden;">
+    <h1 class="text-warning mb-4">Add New Product</h1>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="product_name" class="form-label text-white">Product Name</label>
+            <input type="text" id="product_name" name="product_name" class="form-control" placeholder="Enter product name" required>
+        </div>
+        <div class="mb-3">
+            <label for="ingredient_type" class="form-label text-white">Ingredient Type</label>
+            <select id="ingredient_type" name="ingredient_type" class="form-select" required>
+                <option value="alcoholic">Alcoholic</option>
+                <option value="non-alcoholic">Non-Alcoholic</option>
+                <option value="fruits">Fruits</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="stock_in_date" class="form-label text-white">Stock-in Date</label>
+            <input type="date" id="stock_in_date" name="stock_in_date" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="stock_in_time" class="form-label text-white">Stock-in Time</label>
+            <input type="time" id="stock_in_time" name="stock_in_time" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-success">Create</button>
+    </form>
+</div>
+{% endblock %}

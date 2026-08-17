@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Add New Inventory Item</h1>
+<form method="POST" action="{{ url_for('add_inventory') }}">
+    <div class="form-group">
+        <label>Product Name:</label>
+        <input type="text" name="product_name" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>Category:</label>
+        <input type="text" name="category" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>Stock:</label>
+        <input type="number" name="stock" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>Quantity:</label>
+        <input type="number" name="quantity" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label>Event Date:</label>
+        <input type="date" name="event_date" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-success mt-3">Add Item</button>
+</form>
+{% endblock %}

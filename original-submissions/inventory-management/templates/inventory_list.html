@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Inventory List</h1>
+
+<!-- Add Item and Download Report Buttons -->
+<div class="mb-3">
+    <a href="{{ url_for('add_inventory') }}" class="btn btn-primary">Add New Item</a>
+    <a href="{{ url_for('download_report') }}" class="btn btn-success">Download Report</a>
+</div>
+
+<!-- Search Bar -->
+<form method="GET" action="{{ url_for('index') }}" class="mb-3">
+    <input type="text" name="search" class="form-control" placeholder="Search inventory..." value="{{ search_query }}">
+    <button type="submit" class="btn btn-secondary mt-2">Search</button>
+</form>
+
+<!-- Inventory Table -->
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Product Name</th>
+            <th>Category</th>
+            <th>Stock</th>
+            <th>Quantity</th>
+            <th>Event Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in inventory %}
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.product_name }}</td>
+            <td>{{ item.category }}</td>
+            <td>{{ item.stock }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.event_date }}</td>
+            <td>
+                <a href="{{ url_for('edit_inventory', id=item.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{{ url_for('delete_inventory', id=item.id) }}" class="btn btn-danger btn-sm">Delete</a>
+                <a href="{{ url_for('transfer_item', id=item.id) }}" class="btn btn-info btn-sm">Transfer</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="7" class="text-center">No inventory items found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

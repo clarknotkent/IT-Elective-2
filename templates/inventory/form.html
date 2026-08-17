@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Edit Inventory Item' if item else 'Add Inventory Item' }}{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">{{ 'Edit Inventory Item' if item else 'Add Inventory Item' }}</h1>
+
+{% if not ingredients %}
+<div class="alert alert-warning">
+    No ingredients in the catalog yet.
+    <a href="{{ url_for('ingredients.add') }}">Add one first</a>, then come back here.
+</div>
+{% else %}
+<form method="POST" style="max-width: 32rem;">
+    <div class="mb-3">
+        <label for="ingredient_id" class="form-label">Ingredient</label>
+        <select id="ingredient_id" name="ingredient_id" class="form-select" required>
+            <option value="" disabled {% if not form_values.get('ingredient_id') %}selected{% endif %}>
+                Choose an ingredient&hellip;
+            </option>
+            {% for ingredient in ingredients %}
+            <option value="{{ ingredient.id }}"
+                {% if form_values.get('ingredient_id')|string == ingredient.id|string %}selected{% endif %}>
+                {{ ingredient.name }} ({{ ingredient.type_label }})
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="quantity" class="form-label">Quantity On Hand</label>
+        <input type="number" id="quantity" name="quantity" class="form-control" min="0"
+               value="{{ form_values.get('quantity', 0) }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="stock" class="form-label">Par / Reorder Level</label>
+        <input type="number" id="stock" name="stock" class="form-control" min="0"
+               value="{{ form_values.get('stock', 0) }}" required>
+        <div class="form-text">Items at or below this level are flagged as low stock.</div>
+    </div>
+    <div class="mb-3">
+        <label for="event_date" class="form-label">Event Date (optional)</label>
+        <input type="date" id="event_date" name="event_date" class="form-control"
+               value="{{ form_values.get('event_date', '') }}">
+    </div>
+    <div class="mb-3">
+        <label for="location" class="form-label">Storage Location (optional)</label>
+        <input type="text" id="location" name="location" class="form-control"
+               value="{{ form_values.get('location', '') }}" placeholder="e.g. Bar shelf, Cold storage">
+    </div>
+    <button type="submit" class="btn btn-success">{{ 'Save Changes' if item else 'Add Item' }}</button>
+    <a href="{{ url_for('inventory.index') }}" class="btn btn-outline-secondary">Cancel</a>
+</form>
+{% endif %}
+{% endblock %}

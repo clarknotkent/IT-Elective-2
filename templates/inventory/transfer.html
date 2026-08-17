@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Transfer {{ item.product_name }}{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">Transfer to Preparation Inventory</h1>
+<p>Moving stock of <strong>{{ item.product_name }}</strong>
+   ({{ item.quantity }} currently on hand) to a booking's preparation inventory.</p>
+
+<form method="POST" style="max-width: 28rem;">
+    <div class="mb-3">
+        <label for="transfer_quantity" class="form-label">Quantity to Transfer</label>
+        <input type="number" id="transfer_quantity" name="transfer_quantity" class="form-control"
+               min="1" max="{{ item.quantity }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="booking_date" class="form-label">Booking Date</label>
+        <input type="date" id="booking_date" name="booking_date" class="form-control"
+               value="{{ today }}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Transfer</button>
+    <a href="{{ url_for('inventory.index') }}" class="btn btn-outline-secondary">Cancel</a>
+</form>
+{% endblock %}

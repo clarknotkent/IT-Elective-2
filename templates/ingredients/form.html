@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Edit Ingredient' if ingredient else 'Add Ingredient' }}{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">{{ 'Edit Ingredient' if ingredient else 'Add New Ingredient' }}</h1>
+
+<form method="POST" style="max-width: 32rem;">
+    <div class="mb-3">
+        <label for="name" class="form-label">Ingredient Name</label>
+        <input type="text" id="name" name="name" class="form-control"
+               value="{{ form_values.get('name', '') }}" placeholder="e.g. Vodka" required>
+    </div>
+    <fieldset class="mb-3">
+        <legend class="form-label h6">Type</legend>
+        <select id="ingredient_type" name="ingredient_type" class="form-select" required>
+            <option value="" disabled {% if not form_values.get('ingredient_type') %}selected{% endif %}>
+                Choose a type&hellip;
+            </option>
+            {% for value, label in ingredient_types %}
+            <option value="{{ value }}" {% if form_values.get('ingredient_type') == value %}selected{% endif %}>
+                {{ label }}
+            </option>
+            {% endfor %}
+        </select>
+    </fieldset>
+    <button type="submit" class="btn btn-success">
+        {{ 'Save Changes' if ingredient else 'Create Ingredient' }}
+    </button>
+    <a href="{{ url_for('ingredients.index') }}" class="btn btn-outline-secondary">Cancel</a>
+</form>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5" style="background-color: #6c757d; height: 500px; overflow: hidden;">
+    <h1 class="text-start text-warning mb-4">Ingredient List</h1>
+    
+    <!-- Search Bar and Add New Product Button -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <form method="GET" action="{{ url_for('index') }}" class="w-50">
+            <input 
+                type="text" 
+                class="form-control" 
+                name="search" 
+                value="{{ search_query }}" 
+                placeholder="Search by product name or ingredient type" 
+                aria-label="Search">
+        </form>
+        <button class="btn btn-success" onclick="window.location.href='{{ url_for('create') }}'">Add New Product</button>
+    </div>
+    
+    <!-- Fixed Height Scrollable Table -->
+    <div class="table-responsive" style="height: 350px; overflow-y: auto;">
+        <table class="table table-bordered table-striped align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th class="text-center">No ID</th>
+                    <th>Product</th>
+                    <th class="text-center">Ingredient Type</th>
+                    <th class="text-center">Stock-in Date</th>
+                    <th class="text-center">Stock-in Time</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td class="text-center">{{ product.idNum }}</td>
+                    <td>{{ product.product_name }}</td>
+                    <td class="text-center">{{ product.ingredient_type }}</td>
+                    <td class="text-center">{{ product.stock_in_date if product.stock_in_date else '-' }}</td>
+                    <td class="text-center">{{ product.stock_in_time if product.stock_in_time else '-' }}</td>
+                    <td class="text-center">
+                        <!-- Update Button -->
+                        <a href="{{ url_for('update', idNum=product.idNum) }}" class="btn btn-warning btn-sm">Update</a>
+                        <!-- Delete Button -->
+                        <form action="{{ url_for('delete', idNum=product.idNum) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

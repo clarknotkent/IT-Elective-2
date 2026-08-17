@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Stock In / Stock Out{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">Stock In / Stock Out</h1>
+
+{% if not items %}
+<div class="alert alert-warning">
+    No inventory items yet. <a href="{{ url_for('inventory.add') }}">Add one</a> before recording
+    stock movements.
+</div>
+{% else %}
+<div class="table-responsive mb-5">
+    <table class="table table-striped align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Product</th>
+                <th scope="col">On Hand</th>
+                <th scope="col">Stock In</th>
+                <th scope="col">Stock Out</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.product_name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>
+                    <form action="{{ url_for('stock.stock_in', item_id=item.id) }}" method="POST"
+                          class="d-flex gap-2">
+                        <input type="number" name="quantity" min="1" class="form-control form-control-sm"
+                               style="width: 6rem;" placeholder="Qty" required
+                               aria-label="Stock in quantity for {{ item.product_name }}">
+                        <button type="submit" class="btn btn-success btn-sm text-nowrap">
+                            <i class="bi bi-box-arrow-in-down"></i> In
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <form action="{{ url_for('stock.stock_out', item_id=item.id) }}" method="POST"
+                          class="d-flex gap-2">
+                        <input type="number" name="quantity" min="1" max="{{ item.quantity }}"
+                               class="form-control form-control-sm" style="width: 6rem;" placeholder="Qty"
+                               required aria-label="Stock out quantity for {{ item.product_name }}">
+                        <button type="submit" class="btn btn-danger btn-sm text-nowrap">
+                            <i class="bi bi-box-arrow-up"></i> Out
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<h2 class="h5 mb-3">Recent Movements</h2>
+{% if recent_movements %}
+<div class="table-responsive">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th scope="col">When</th>
+                <th scope="col">Product</th>
+                <th scope="col">Type</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Note</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movement in recent_movements %}
+            <tr>
+                <td>{{ movement.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ movement.item.product_name if movement.item else '—' }}</td>
+                <td>
+                    <span class="badge {{ 'bg-success' if movement.movement_type == 'in' else 'bg-danger' }}">
+                        {{ movement.type_label }}
+                    </span>
+                </td>
+                <td>{{ movement.quantity }}</td>
+                <td class="text-muted">{{ movement.note or '' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p class="text-muted">No stock movements recorded yet.</p>
+{% endif %}
+{% endif %}
+{% endblock %}

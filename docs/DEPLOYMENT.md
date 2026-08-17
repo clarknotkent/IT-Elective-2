@@ -1,0 +1,96 @@
+# Deploying to PythonAnywhere
+
+Deployment module by Chris Maynard Ampon.
+
+## 1. Get the code onto PythonAnywhere
+
+Open a **Bash console** from the PythonAnywhere dashboard:
+
+```bash
+git clone https://github.com/clarknotkent/IT-Elective-2.git
+cd IT-Elective-2
+```
+
+## 2. Create a virtualenv and install dependencies
+
+```bash
+mkvirtualenv --python=/usr/bin/python3.10 bevanda-venv
+pip install -r requirements.txt
+```
+
+(Check **Web → Python version** in the dashboard first — match the
+`--python` flag above to whatever's actually available on your account.)
+
+## 3. Set environment variables
+
+In the **Web** tab, under your web app's configuration, add to the WSGI
+config file (see step 5) or to a `.env` file loaded by `python-dotenv`:
+
+```
+SECRET_KEY=<generate a real one, don't use the dev default>
+DATABASE_URL=sqlite:////home/<your-pythonanywhere-username>/IT-Elective-2/instance/bevanda.db
+```
+
+Note the **four** slashes in `sqlite:////...` — PythonAnywhere needs an
+absolute path.
+
+## 4. Run migrations
+
+```bash
+export FLASK_APP=app:create_app
+export DATABASE_URL=sqlite:////home/<your-pythonanywhere-username>/IT-Elective-2/instance/bevanda.db
+flask db upgrade
+```
+
+## 5. Configure the web app
+
+**Web** tab → **Add a new web app** → **Manual configuration** → your
+Python version.
+
+- **Source code**: `/home/<your-pythonanywhere-username>/IT-Elective-2`
+- **Virtualenv**: `/home/<your-pythonanywhere-username>/.virtualenvs/bevanda-venv`
+- **WSGI configuration file** — replace its contents with:
+
+```python
+import sys, os
+
+project_home = '/home/<your-pythonanywhere-username>/IT-Elective-2'
+if project_home not in sys.path:
+    sys.path.insert(0, project_home)
+
+os.environ['SECRET_KEY'] = '<same value as step 3>'
+os.environ['DATABASE_URL'] = 'sqlite:////home/<your-pythonanywhere-username>/IT-Elective-2/instance/bevanda.db'
+os.environ['FLASK_ENV'] = 'production'
+
+from app import create_app
+application = create_app('production')
+```
+
+- **Static files**: map URL `/static/` to
+  `/home/<your-pythonanywhere-username>/IT-Elective-2/static/`
+
+Hit the green **Reload** button. Your app is live at
+`https://<your-pythonanywhere-username>.pythonanywhere.com`.
+
+## Updating after a push
+
+```bash
+cd ~/IT-Elective-2
+git pull
+workon bevanda-venv
+pip install -r requirements.txt   # only if requirements.txt changed
+flask db upgrade                  # only if there's a new migration
+```
+
+Then hit **Reload** on the Web tab again — PythonAnywhere won't pick up
+code changes until you do.
+
+## Free-tier limits worth knowing about
+
+- Free accounts only allow outbound requests to a fixed allowlist of
+  domains — irrelevant here since this app makes no outbound HTTP calls,
+  but worth knowing if that changes later.
+- Free web apps go to sleep after a period of inactivity and take a few
+  seconds to wake back up on the next request.
+- SQLite is fine for a coursework-scale app like this one; if this ever
+  needs concurrent writers, PythonAnywhere also offers hosted MySQL.

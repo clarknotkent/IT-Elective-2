@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Preparation Inventory</h1>
+<table class="table table-striped mt-3">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Transfer Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in transfers %}
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.product_name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.transfer_date }}</td>
+            <td>
+                <!-- Update Button -->
+                <a href="{{ url_for('update_preparation_inventory', id=item.id) }}" class="btn btn-warning btn-sm">Update</a>
+
+                <!-- Delete Button -->
+                <form method="POST" action="{{ url_for('delete_preparation_inventory', id=item.id) }}" style="display: inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="5" class="text-center">No items found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

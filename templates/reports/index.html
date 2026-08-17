@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Reports{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">Reports</h1>
+<div class="card" style="max-width: 28rem;">
+    <div class="card-body">
+        <h5 class="card-title"><i class="bi bi-file-earmark-pdf"></i> Inventory Report</h5>
+        <p class="card-text">A snapshot of every item in the main inventory, including which ones
+            are at or below their par level.</p>
+        <a href="{{ url_for('reports.inventory_pdf') }}" class="btn btn-primary">Download PDF</a>
+    </div>
+</div>
+{% endblock %}
