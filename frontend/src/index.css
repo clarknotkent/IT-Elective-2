@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Palette as raw channel triplets so Tailwind's alpha modifiers
+   (text-ink/70, bg-bg/20) resolve through rgb(... / <alpha-value>). */
+:root {
+  --c-bg: 245 234 216;
+  --c-surface: 235 221 197;
+  --c-ink: 32 30 29;
+  --divider-a: 0.16;
+
+  --c-neutral-100: 249 244 237;
+  --c-neutral-200: 238 231 219;
+  --c-neutral-300: 220 211 196;
+  --c-neutral-400: 192 182 165;
+  --c-neutral-500: 161 151 134;
+  --c-neutral-600: 130 121 106;
+  --c-neutral-700: 100 92 80;
+  --c-neutral-800: 71 66 56;
+  --c-neutral-900: 46 43 37;
+
+  /* Terracotta — primary accent */
+  --c-accent-100: 255 242 235;
+  --c-accent-200: 255 225 208;
+  --c-accent-300: 255 198 165;
+  --c-accent-400: 246 160 107;
+  --c-accent-500: 214 127 72;
+  --c-accent-600: 178 98 45;
+  --c-accent-700: 140 73 26;
+  --c-accent-800: 100 51 18;
+  --c-accent-900: 64 35 16;
+
+  /* Sage — second accent */
+  --c-sage-100: 240 250 225;
+  --c-sage-200: 225 238 204;
+  --c-sage-300: 204 219 178;
+  --c-sage-400: 174 191 146;
+  --c-sage-500: 143 160 115;
+  --c-sage-600: 114 129 87;
+  --c-sage-700: 86 99 63;
+  --c-sage-800: 61 71 43;
+  --c-sage-900: 39 46 27;
+
+  /* Clay — destructive */
+  --c-clay-100: 255 236 232;
+  --c-clay-200: 255 220 214;
+  --c-clay-500: 176 67 47;
+  --c-clay-700: 117 38 28;
+
+  /* Plum — transfer */
+  --c-plum-100: 250 238 243;
+  --c-plum-200: 243 224 232;
+  --c-plum-500: 147 96 122;
+  --c-plum-700: 93 47 69;
+
+  /* Semantic roles. Each is a tint / ink / edge triplet. */
+  --c-low-tint: var(--c-accent-200);
+  --c-low-ink: var(--c-accent-800);
+  --c-low-edge: var(--c-accent-500);
+
+  --c-in-tint: var(--c-sage-200);
+  --c-in-ink: var(--c-sage-800);
+  --c-in-edge: var(--c-sage-500);
+
+  --c-out-tint: var(--c-neutral-300);
+  --c-out-ink: var(--c-neutral-800);
+  --c-out-edge: var(--c-neutral-500);
+
+  --c-danger-tint: var(--c-clay-200);
+  --c-danger-ink: var(--c-clay-700);
+  --c-danger-edge: var(--c-clay-500);
+
+  --c-transfer-tint: var(--c-plum-200);
+  --c-transfer-ink: var(--c-plum-700);
+  --c-transfer-edge: var(--c-plum-500);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --c-bg: 28 26 25;
+    --c-surface: 46 43 37;
+    --c-ink: 249 244 237;
+    --divider-a: 0.18;
+
+    --c-low-tint: 74 47 24;
+    --c-low-ink: 255 198 165;
+    --c-low-edge: 214 127 72;
+
+    --c-in-tint: 49 58 36;
+    --c-in-ink: 204 219 178;
+    --c-in-edge: 143 160 115;
+
+    --c-out-tint: 59 54 46;
+    --c-out-ink: 220 211 196;
+    --c-out-edge: 161 151 134;
+
+    --c-danger-tint: 75 32 26;
+    --c-danger-ink: 255 184 171;
+    --c-danger-edge: 210 112 92;
+
+    --c-transfer-tint: 63 36 46;
+    --c-transfer-ink: 234 188 205;
+    --c-transfer-edge: 179 132 154;
+  }
+}

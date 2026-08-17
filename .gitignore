@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Backend instance folder (local sqlite db)
+backend/instance/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Env vars
+.env
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# TypeScript incremental build cache
+frontend/*.tsbuildinfo
